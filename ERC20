@@ -103,3 +103,66 @@ contract WeightedVoting is ERC20 {
         _issue.quorum = _quorum;
         return issues.length - 1;
     }
+
+    // Function to get details of a voting issue
+    function getIssue(uint256 _issueId)
+        external
+        view
+        returns (SerializedIssue memory)
+    {
+        Issue storage _issue = issues[_issueId];
+        return
+            SerializedIssue({
+                voters: _issue.voters.values(),
+                issueDesc: _issue.issueDesc,
+                quorum: _issue.quorum,
+                totalVotes: _issue.totalVotes,
+                votesFor: _issue.votesFor,
+                votesAgainst: _issue.votesAgainst,
+                votesAbstain: _issue.votesAbstain,
+                passed: _issue.passed,
+                closed: _issue.closed
+            });
+    }
+
+    // Function to cast a vote on a voting issue
+    function vote(uint256 _issueId, Vote _vote) public {
+        Issue storage _issue = issues[_issueId];
+
+        // Check if the issue is closed
+        if (_issue.closed) {
+            revert VotingClosed();
+        }
+        // Check if the caller has already voted
+        if (_issue.voters.contains(msg.sender)) {
+            revert AlreadyVoted();
+        }
+
+        uint256 nTokens = balanceOf(msg.sender);
+        // Check if the caller holds any tokens
+        if (nTokens == 0) {
+            revert NoTokensHeld();
+        }
+
+        // Update vote counts based on the vote option
+        if (_vote == Vote.AGAINST) {
+            _issue.votesAgainst += nTokens;
+        } else if (_vote == Vote.FOR) {
+            _issue.votesFor += nTokens;
+        } else {
+            _issue.votesAbstain += nTokens;
+        }
+
+        // Add the caller to the list of voters and update total votes count
+        _issue.voters.add(msg.sender);
+        _issue.totalVotes += nTokens;
+
+        // Close the issue if quorum is reached and determine if it passed
+        if (_issue.totalVotes >= _issue.quorum) {
+            _issue.closed = true;
+            if (_issue.votesFor > _issue.votesAgainst) {
+                _issue.passed = true;
+            }
+        }
+    }
+}
