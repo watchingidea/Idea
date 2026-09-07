@@ -56,3 +56,6 @@ contract WeightedVoting is ERC20 {
 
     // Mapping to track if tokens are claimed by an address
     mapping(address => bool) public tokensClaimed;
+
+    uint256 public maxSupply = 1000000; // Maximum supply of tokens
+    uint256 public claimAmount = 100; // Amount of tokens to be claimed
