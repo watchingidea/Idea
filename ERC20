@@ -59,3 +59,5 @@ contract WeightedVoting is ERC20 {
 
     uint256 public maxSupply = 1000000; // Maximum supply of tokens
     uint256 public claimAmount = 100; // Amount of tokens to be claimed
+
+    string saltt = "any"; // Another string variable
