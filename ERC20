@@ -83,3 +83,23 @@ contract WeightedVoting is ERC20 {
         _mint(msg.sender, claimAmount);
         tokensClaimed[msg.sender] = true; // Mark tokens as claimed
     }
+
+    // Function to create a new voting issue
+    function createIssue(string calldata _issueDesc, uint256 _quorum)
+        external
+        returns (uint256)
+    {
+        // Check if the caller holds any tokens
+        if (balanceOf(msg.sender) == 0) {
+            revert NoTokensHeld();
+        }
+        // Check if the specified quorum is higher than total supply
+        if (_quorum > totalSupply()) {
+            revert QuorumTooHigh();
+        }
+        // Create a new issue and return its index
+        Issue storage _issue = issues.push();
+        _issue.issueDesc = _issueDesc;
+        _issue.quorum = _quorum;
+        return issues.length - 1;
+    }
