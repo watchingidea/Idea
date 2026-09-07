@@ -55,3 +55,19 @@ uint256 constant Y2K = 946702800; // Constant representing the Unix timestamp fo
                 counter++;
             }
         }
+
+        // Initialize memory arrays to hold timestamps and senders after Y2K
+        uint256[] memory timestampsAfterY2K = new uint256[](counter);
+        address[] memory sendersAfterY2K = new address[](counter);
+
+        // Initialize index for inserting elements into memory arrays
+        uint256 index = 0;
+
+        // Iterate through timestamps and senders arrays to extract elements after Y2K
+        for (uint i = 0; i < timestamps.length; i++) {
+            if (timestamps[i] > Y2K) {
+                timestampsAfterY2K[index] = timestamps[i];
+                sendersAfterY2K[index] = senders[i];
+                index++;
+            }
+        }
