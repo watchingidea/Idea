@@ -109,3 +109,25 @@ contract HaikuNFT is ERC721, ISubmission {
                 sharedHaikuCount++;
             }
         }
+
+        Haiku[] memory result = new Haiku[](sharedHaikuCount);
+        uint256 currentIndex;
+        for (uint256 i = 0; i < haikus.length; i++) {
+            if (sharedHaikus[msg.sender][i + 1]) {
+                result[currentIndex] = haikus[i];
+                currentIndex++;
+            }
+        }
+
+        if (sharedHaikuCount == 0) {
+            revert NoHaikusShared();
+        }
+
+        return result;
+    }
+
+    // Custom errors
+    error HaikuNotUnique(); // Error for attempting to mint a non-unique haiku
+    error NotYourHaiku(); // Error for attempting to share a haiku not owned by the caller
+    error NoHaikusShared(); // Error for no haikus shared with the caller
+}
