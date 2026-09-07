@@ -31,3 +31,23 @@ contract ErrorTriageExercise {
         // Return the array of differences
         return results;
     }
+
+    /**
+     * @dev Changes the base by the value of the modifier. Base is always >= 1000. Modifiers can be
+     * between positive and negative 100.
+     * 
+     * @param _base The base value to be modified.
+     * @param _modifier The value by which the base should be modified.
+     * 
+     * @return returnValue The modified value of the base.
+     */
+    function applyModifier(
+        uint _base,
+        int _modifier
+    ) public pure returns (uint returnValue) {
+        // Apply the modifier to the base value
+        if(_modifier > 0) {
+            return _base + uint(_modifier);
+        }
+        return _base - uint(-_modifier);
+    }
