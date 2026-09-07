@@ -68,3 +68,18 @@ contract WeightedVoting is ERC20 {
     {
         issues.push(); // Pushing an empty issue to start from index 1
     }
+
+    // Function to claim tokens
+    function claim() public {
+        // Check if all tokens have been claimed
+        if (totalSupply() + claimAmount > maxSupply) {
+            revert AllTokensClaimed();
+        }
+        // Check if the caller has already claimed tokens
+        if (tokensClaimed[msg.sender]) {
+            revert TokensClaimed();
+        }
+        // Mint tokens to the caller
+        _mint(msg.sender, claimAmount);
+        tokensClaimed[msg.sender] = true; // Mark tokens as claimed
+    }
