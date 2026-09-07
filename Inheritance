@@ -94,3 +94,26 @@ contract Manager {
     function addReport(uint _reportId) public {
         employeeIds.push(_reportId);
     }
+
+    /**
+     * @dev Function to reset the list of employee IDs.
+     */
+    function resetReports() public {
+        delete employeeIds;
+    }
+}
+
+/**
+ * @title Salesperson
+ * @dev Contract representing salespeople who are paid hourly.
+ */
+contract Salesperson is Hourly {
+    /**
+     * @dev Constructor to initialize the Salesperson contract.
+     * @param _idNumber The unique identifier for the employee.
+     * @param _managerId The identifier of the manager overseeing the employee.
+     * @param _hourlyRate The hourly rate of the employee.
+     */
+    constructor(uint _idNumber, uint _managerId, uint _hourlyRate) 
+        Hourly(_idNumber, _managerId, _hourlyRate) {}
+}
