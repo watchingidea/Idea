@@ -61,3 +61,10 @@ contract WeightedVoting is ERC20 {
     uint256 public claimAmount = 100; // Amount of tokens to be claimed
 
     string saltt = "any"; // Another string variable
+
+    // Constructor to initialize ERC20 token with a name and symbol
+    constructor(string memory _name, string memory _symbol)
+        ERC20(_name, _symbol)
+    {
+        issues.push(); // Pushing an empty issue to start from index 1
+    }
