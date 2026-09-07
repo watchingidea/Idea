@@ -52,3 +52,20 @@ contract Salaried is Employee {
         return annualSalary;
     }
 }
+
+/**
+ * @title Hourly
+ * @dev Contract representing employees who are paid an hourly rate.
+ */
+contract Hourly is Employee {
+    uint public hourlyRate; // The hourly rate of the employee
+
+    /**
+     * @dev Constructor to initialize the Hourly contract.
+     * @param _idNumber The unique identifier for the employee.
+     * @param _managerId The identifier of the manager overseeing the employee.
+     * @param _hourlyRate The hourly rate of the employee.
+     */
+    constructor(uint _idNumber, uint _managerId, uint _hourlyRate) Employee(_idNumber, _managerId) {
+        hourlyRate = _hourlyRate;
+    }
