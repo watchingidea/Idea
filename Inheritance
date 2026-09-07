@@ -117,3 +117,18 @@ contract Salesperson is Hourly {
     constructor(uint _idNumber, uint _managerId, uint _hourlyRate) 
         Hourly(_idNumber, _managerId, _hourlyRate) {}
 }
+
+/**
+ * @title EngineeringManager
+ * @dev Contract representing engineering managers who are paid an annual salary and have managerial responsibilities.
+ */
+contract EngineeringManager is Salaried, Manager {
+    /**
+     * @dev Constructor to initialize the EngineeringManager contract.
+     * @param _idNumber The unique identifier for the employee.
+     * @param _managerId The identifier of the manager overseeing the employee.
+     * @param _annualSalary The annual salary of the employee.
+     */
+    constructor(uint _idNumber, uint _managerId, uint _annualSalary) 
+        Salaried(_idNumber, _managerId, _annualSalary) {}
+}
