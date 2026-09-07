@@ -51,3 +51,27 @@ contract ErrorTriageExercise {
         }
         return _base - uint(-_modifier);
     }
+
+    uint[] arr;
+
+    function popWithReturn() public returns (uint returnNum) {
+        if(arr.length > 0) {
+            uint result = arr[arr.length - 1];
+            arr.pop();
+            return result;
+        }
+    }
+
+    // The utility functions below are working as expected
+    function addToArr(uint _num) public {
+        arr.push(_num);
+    }
+
+    function getArr() public view returns (uint[] memory) {
+        return arr;
+    }
+
+    function resetArr() public {
+        delete arr;
+    }
+}
