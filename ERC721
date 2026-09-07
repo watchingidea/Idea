@@ -48,3 +48,34 @@ contract HaikuNFT is ERC721, ISubmission {
     function counter() external view override returns (uint256) {
         return haikuCounter;
     }
+
+    // Function to mint a new haiku
+    function mintHaiku(
+        string memory _line1,
+        string memory _line2,
+        string memory _line3
+    ) external override {
+        // Check if the haiku is unique
+        string[3] memory haikusStrings = [_line1, _line2, _line3];
+        for (uint256 li = 0; li < haikusStrings.length; li++) {
+            string memory newLine = haikusStrings[li];
+            for (uint256 i = 0; i < haikus.length; i++) {
+                Haiku memory existingHaiku = haikus[i];
+                string[3] memory existingHaikuStrings = [
+                    existingHaiku.line1,
+                    existingHaiku.line2,
+                    existingHaiku.line3
+                ];
+                for (uint256 eHsi = 0; eHsi < 3; eHsi++) {
+                    string memory existingHaikuString = existingHaikuStrings[
+                        eHsi
+                    ];
+                    if (
+                        keccak256(abi.encodePacked(existingHaikuString)) ==
+                        keccak256(abi.encodePacked(newLine))
+                    ) {
+                        revert HaikuNotUnique();
+                    }
+                }
+            }
+        }
